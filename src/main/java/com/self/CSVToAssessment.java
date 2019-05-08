@@ -34,12 +34,24 @@ public class CSVToAssessment {
 				// use comma as separator
 				String[] row = line.split(firstLevelSplitBy);
 
-				JSONObject section = new JSONObject();
-				JSONArray questions = new JSONArray();
-				section.put("section", row[0]);
-				section.put("questions", questions);
-
-				sectionArray.add(section);
+				JSONObject obj = null;
+				JSONObject section = null;
+				for(int i = 0; i < sectionArray.size(); i++) {
+					obj = (JSONObject)sectionArray.get(i);
+					if(row[0].equals(obj.get("section"))) {
+						section = obj;
+					}
+				}
+				
+				if(null == section) {
+					section = new JSONObject();
+					section.put("section", row[0]);
+					JSONArray questions = new JSONArray();
+					section.put("questions", questions);
+					
+					//Add New Section into Array.
+					sectionArray.add(section);
+				}
 
 				String[] qas = row[1].split(cvsSplitBy);
 				JSONObject question = new JSONObject();
@@ -59,7 +71,8 @@ public class CSVToAssessment {
 					options.add(option);
 				}
 				question.put("options", options);
-				questions.add(question);
+				
+				((JSONArray)section.get("questions")).add(question);
 
 				JSONArray categories = new JSONArray();
 				question.put("categories", categories);
