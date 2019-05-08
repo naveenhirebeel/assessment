@@ -1,6 +1,7 @@
 package com.self;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,10 +11,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class CSVToAssessment {
+	
+	public String convertCsvToJson(String filePath) {
 
-	public static void main(String[] args) {
-
-		String csvFile = "/home/administrator/eclipse-workspace/cass_app/src/main/java/com/self/test.csv";
+		String assessmentStr = "";
+		File f = new File(filePath);
 		BufferedReader br = null;
 		String line = "";
 		String firstLevelSplitBy = ",<end>,";
@@ -21,7 +23,7 @@ public class CSVToAssessment {
 
 		try {
 
-			br = new BufferedReader(new FileReader(csvFile));
+			br = new BufferedReader(new FileReader(f));
 
 			JSONObject assessment = new JSONObject();
 			JSONArray sectionArray = new JSONArray();
@@ -31,10 +33,6 @@ public class CSVToAssessment {
 
 				// use comma as separator
 				String[] row = line.split(firstLevelSplitBy);
-
-				Arrays.asList(row).forEach(val -> {
-					System.out.println(val + " ");
-				});
 
 				JSONObject section = new JSONObject();
 				JSONArray questions = new JSONArray();
@@ -84,7 +82,7 @@ public class CSVToAssessment {
 				}
 				
 			}
-			System.out.println(assessment.toJSONString());
+			assessmentStr = assessment.toJSONString();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -98,7 +96,12 @@ public class CSVToAssessment {
 				}
 			}
 		}
+		return assessmentStr;
+	}
 
+	public static void main(String[] args) {
+		String filePath = "/home/administrator/eclipse-workspace/cass_app/src/main/java/test.csv";
+		System.out.println(new CSVToAssessment().convertCsvToJson(filePath));
 	}
 
 }
