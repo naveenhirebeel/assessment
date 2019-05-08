@@ -18,7 +18,7 @@ public class CSVToAssessment {
 		File f = new File(filePath);
 		BufferedReader br = null;
 		String line = "";
-		String firstLevelSplitBy = ",<end>,";
+		String firstLevelSplitBy = ",,";
 		String cvsSplitBy = ",";
 
 		try {
