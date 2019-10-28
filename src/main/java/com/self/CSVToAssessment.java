@@ -29,10 +29,14 @@ public class CSVToAssessment {
 			JSONArray sectionArray = new JSONArray();
 			assessment.put("sections", sectionArray);
 
+			// Ignore First Line
+			br.readLine();
+
 			while ((line = br.readLine()) != null) {
 
 				// use comma as separator
 				String[] row = line.split(firstLevelSplitBy);
+				System.out.println(row);
 
 				JSONObject obj = null;
 				JSONObject section = null;
@@ -55,16 +59,27 @@ public class CSVToAssessment {
 
 				String[] qas = row[1].split(cvsSplitBy);
 				JSONObject question = new JSONObject();
-				question.put("question", qas[0]);
+				question.put("type", "dropdown");
+				question.put("qid", qas[0]);
+				question.put("question", qas[1]);
 				question.put("answer", "0");
-				question.put("weight", qas[1]);
+				String typeOfField = qas[2];
+				question.put("type", typeOfField);
+				question.put("weight", qas[3]);
+				question.put("majorVersion", qas[4]);
+				question.put("minorVersion", qas[5]);
 
 				JSONArray options = new JSONArray();
-				JSONObject option = new JSONObject();
-				option.put("text", "Select");
-				option.put("score", "0");
-				options.add(option);
-				for (int i = 2; i < qas.length;) {
+				JSONObject option = null;
+
+				if(!"radio".equals(typeOfField)){
+					option = new JSONObject();
+					option.put("text", "Select");
+					option.put("score", "0");
+					options.add(option);
+				}
+
+				for (int i = 6; i < qas.length;) {
 					option = new JSONObject();
 					option.put("text", qas[i++]);
 					option.put("score", qas[i++]);
