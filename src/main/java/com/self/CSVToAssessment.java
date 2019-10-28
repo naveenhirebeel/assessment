@@ -36,7 +36,7 @@ public class CSVToAssessment {
 
 				// use comma as separator
 				String[] row = line.split(firstLevelSplitBy);
-				System.out.println(row);
+//				System.out.println(row);
 
 				JSONObject obj = null;
 				JSONObject section = null;
@@ -59,15 +59,24 @@ public class CSVToAssessment {
 
 				String[] qas = row[1].split(cvsSplitBy);
 				JSONObject question = new JSONObject();
-				question.put("type", "dropdown");
-				question.put("qid", qas[0]);
-				question.put("question", qas[1]);
+				int questionColumnCount = 0;
+
+				// If Has Group Consider else ignore
+				if(!"-".equals(qas[0].trim().toUpperCase())) {
+					question.put("group", qas[questionColumnCount++]);
+				} else {
+					questionColumnCount++;
+				}
+
+
+				question.put("qid", qas[questionColumnCount++]);
+				question.put("question", qas[questionColumnCount++]);
 				question.put("answer", "0");
-				String typeOfField = qas[2];
+				String typeOfField = qas[questionColumnCount++];
 				question.put("type", typeOfField);
-				question.put("weight", qas[3]);
-				question.put("majorVersion", qas[4]);
-				question.put("minorVersion", qas[5]);
+				question.put("weight", qas[questionColumnCount++]);
+				question.put("majorVersion", qas[questionColumnCount++]);
+				question.put("minorVersion", qas[questionColumnCount++]);
 
 				JSONArray options = new JSONArray();
 				JSONObject option = null;
@@ -78,8 +87,8 @@ public class CSVToAssessment {
 					option.put("score", "0");
 					options.add(option);
 				}
-
-				for (int i = 6; i < qas.length;) {
+//				System.out.println("questionColumnCount "+ questionColumnCount);
+				for (int i = questionColumnCount; i < qas.length;) {
 					option = new JSONObject();
 					option.put("text", qas[i++]);
 					option.put("score", qas[i++]);

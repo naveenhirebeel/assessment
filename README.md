@@ -9,7 +9,8 @@ arg2 -> File Name
 Reffer Resources folder for CSV File Format.
 
 Steps:
-1. Open file as Excel sheet.
+1. Open Excel sheet file.
+2. Create One more CSV file and copy paste(Select Values Paste Option) from Excel Sheet.
 2. Replace all , to some unique character(ex: $) which is not available in Sheet.
 3. Run the Jar and Pass this file(Absolute Path) as argument.
 4. Open JSON in any editor and Replace all Unique Character(Step 2) to , . i.e. Reverse of Step 2.
