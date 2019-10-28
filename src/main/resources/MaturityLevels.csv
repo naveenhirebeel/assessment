@@ -1,0 +1,5 @@
+MaturityLevels,Title,Minimum,Maximum
+1,L1 - Beginner,0,25
+2,L2 - Intermediate,25,50
+3,L3 - Advanced,50,75
+4,L4 - Expert,75,100
