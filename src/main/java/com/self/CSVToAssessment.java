@@ -106,15 +106,18 @@ public class CSVToAssessment {
 					JSONObject category = new JSONObject();
 					category.put("category", cs[0]);
 
-					JSONArray subCategories = new JSONArray();
-					category.put("subCategories", subCategories);
+					if(cs.length > 1) {
+						JSONArray subCategories = new JSONArray();
+						category.put("subCategories", subCategories);
 
-					JSONObject subCategory = null;
-					for (int j = 1; j < cs.length; j++) {
-						subCategory = new JSONObject();
-						subCategory.put("subCategory", cs[j]);
-						subCategories.add(subCategory);
+						JSONObject subCategory = null;
+						for (int j = 1; j < cs.length; j++) {
+							subCategory = new JSONObject();
+							subCategory.put("subCategory", cs[j]);
+							subCategories.add(subCategory);
+						}
 					}
+
 					categories.add(category);
 				}
 
